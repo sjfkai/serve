@@ -18,6 +18,7 @@ const handler = require('serve-handler');
 const schema = require('@zeit/schemas/deployment/config-static');
 const boxen = require('boxen');
 const compression = require('compression');
+const qrcode = require('qrcode-terminal');
 
 // Utilities
 const pkg = require('../package');
@@ -84,6 +85,8 @@ const getHelp = () => chalk`
       -n, --no-clipboard                  Do not copy the local address to the clipboard
 
       -S, --symlinks                      Resolve symlinks instead of showing 404 errors
+
+      -q, --qrcode                        Display the QR code of network url
 
   {bold ENDPOINTS}
 
@@ -219,6 +222,11 @@ const startEndpoint = (endpoint, config, args, previous) => {
 
 			if (networkAddress) {
 				message += `\n${chalk.bold('- On Your Network:')}  ${networkAddress}`;
+				if (config.qrcode) {
+					qrcode.generate(networkAddress, {small: true}, function getQrcode(qrcodeString) {
+						message += `\n${chalk.bold('- Scan With Phone:')} \n${qrcodeString}`;
+					});
+				}
 			}
 
 			if (previous) {
@@ -344,6 +352,7 @@ const loadConfig = async (cwd, entry, args) => {
 			'--no-clipboard': Boolean,
 			'--no-compression': Boolean,
 			'--symlinks': Boolean,
+			'--qrcode': Boolean,
 			'-h': '--help',
 			'-v': '--version',
 			'-l': '--listen',
@@ -353,6 +362,7 @@ const loadConfig = async (cwd, entry, args) => {
 			'-n': '--no-clipboard',
 			'-u': '--no-compression',
 			'-S': '--symlinks',
+			'-q': '--qrcode',
 			// This is deprecated and only for backwards-compatibility.
 			'-p': '--listen'
 		});
@@ -403,6 +413,10 @@ const loadConfig = async (cwd, entry, args) => {
 
 	if (args['--symlinks']) {
 		config.symlinks = true;
+	}
+
+	if (args['--qrcode']) {
+		config.qrcode = true;
 	}
 
 	for (const endpoint of args['--listen']) {
