@@ -1,5 +1,5 @@
 {
-  "name": "serve",
+  "name": "serve-qrcode",
   "version": "11.0.2",
   "description": "Static file serving and directory listing",
   "scripts": {
@@ -12,7 +12,7 @@
   ],
   "repository": "zeit/serve",
   "bin": {
-    "serve": "./bin/serve.js"
+    "serve-qrcode": "./bin/serve.js"
   },
   "keywords": [
     "now",

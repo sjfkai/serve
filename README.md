@@ -1,3 +1,7 @@
+This is A copy repo of [serve](https://www.npmjs.com/package/serve) but add `-q --qrcode` option.
+
+----
+
 ![](https://assets.zeit.co/image/upload/v1527770721/repositories/serve/serve-repo-banner.png)
 
 [![Build Status](https://circleci.com/gh/zeit/serve.svg?&style=shield)](https://circleci.com/gh/zeit/serve)
